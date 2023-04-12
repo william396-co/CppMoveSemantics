@@ -3,13 +3,12 @@
 #include <ostream>
 #include <string>
 
-
 std::string returnStringByVal()
 {
     return std::string( "world" );
 }
 
-void RValRef()
+void RValRefInDetails()
 {
     println( __PRETTY_FUNCTION__ );
     // rvalue reference can refere only to temporary object that does not have a name
@@ -38,9 +37,32 @@ void RValRef()
     println( s );
 }
 
+void foo( std::string && rv )
+{
+    println( __PRETTY_FUNCTION__, "(", rv, ")" );
+
+    rv = "foo";
+}
+
+void RValRefAsParam()
+{
+    println( __PRETTY_FUNCTION__ );
+
+    std::string s { "middle night" };
+
+    //    foo(s); // ERROR
+    foo( std::move( s ) ); // OK, value of string might change
+    foo( returnStringByVal() );
+    println( "after foo s = ", s );
+
+    s = "hello again";
+    foo( std::move( s ) );
+}
+
 int main()
 {
 
-    RValRef();
+    RValRefInDetails();
+    RValRefAsParam();
     return 0;
 }
