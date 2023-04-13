@@ -41,7 +41,7 @@ void foo( std::string && rv )
 {
     println( __PRETTY_FUNCTION__, "(", rv, ")" );
 
-    rv = "foo";
+    std::string s = std::move(rv);
 }
 
 void RValRefAsParam()

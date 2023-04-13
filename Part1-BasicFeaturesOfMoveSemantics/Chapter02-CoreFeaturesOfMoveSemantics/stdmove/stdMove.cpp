@@ -41,6 +41,7 @@ void foo1( std::string const & lr )
 void foo1( std::string && rv )
 {
     println( __PRETTY_FUNCTION__, "(", rv, ")" );
+    std::string s = std::move( rv );
 }
 
 void foo2( std::string const & lr )
