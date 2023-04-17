@@ -30,6 +30,9 @@
 #include "declare_cp_disable_mv.h"
 #include "declare_mv_dsiable_cp.h"
 #include "delete_mv_no_sence.h"
+#include "disabling_mv_enable_cp.h"
+#include "moving_for_member_disable_move.h"
+#include "exact_rules.h"
 
 int main()
 {
@@ -38,5 +41,8 @@ int main()
     declare_copy_disable_move::execute();
     declare_move_disable_copy::execute();
     delete_move_make_no_sense::execute();
+    disable_move_enable_copy::execute();
+    moving_for_member_with_disable_move_semantics::execute();
+    exact_rules_for_gen_special_mem_fn::execute();
     return 0;
 }

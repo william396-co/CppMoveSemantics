@@ -10,6 +10,10 @@
  *   Deleting Moving Makes No Sense
  */
 
+/*
+ * if you declare the move constructor as deleted, you cannot move(you have disabled this operations, any fallback is not used)
+ * and cannot copy(because a declared move constructor disables copy operations)
+ */
 namespace delete_move_make_no_sense {
 
 class Person
@@ -17,8 +21,10 @@ class Person
 public:
     Person( std::string const & first, std::string const & family )
         : firstName { first }, familyName { family } {}
-    // No copy constructor/assignment declared
-    //  move constructor/assignment declared
+    //  copy constructor/assignment declared explicitly declared
+    Person( Person const & ) = default;
+    Person & operator=( Person const & ) = default;
+    //   move constructor/assignment declared as deleted
     Person( Person && ) = delete;
     Person & operator=( Person && ) = delete;
     // No destructor declared
@@ -39,10 +45,11 @@ inline void execute()
 
     std::vector<Person> coll;
     Person p { "Tina", "Fox" };
-    //coll.push_back( p );              // ERROR copis disabled
-    //coll.push_back( std::move( p ) ); // ERROR  moves disabled
+    //    coll.push_back( p );              // ERROR copis disabled
+    coll.push_back( p ); // Ok, copying enabled
+                         // coll.push_back( std::move( p ) ); // ERROR  moving disabled
 
-    println(p);
+    println( p );
 }
 
 } // namespace delete_move_make_no_sense
