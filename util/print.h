@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <utility>
 
-#if __cpluspluc < 201703L //below c++17
+#if __cplusplus < 201703L //below c++17
 
 template<typename T>
 void print( T const & t )
