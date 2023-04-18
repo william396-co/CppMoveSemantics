@@ -127,8 +127,31 @@ void guaranteed_states_of_moved_from_objs()
 }
 
 /*
- * 6.1.3 Broken Invariants
+ * 6.1.3 Broken Invariants(破坏不变量)
  *
+ * The C++ standard library defines what all moved-from objects being in a "valid but unspecified state " means as follow:
+ *
+ * The value of an object is not specified except that the object's invariants are met and operations on the object
+ * behave as specified for its type
+ *
+ * Invariant are the guarantees that apply to all of the objcets that can be created, With this guarantee, you can assume that
+ * a moved-from object is in a state that means that its invariants are not broken. You can use the object like a non-const
+ * reference parameter without knowing anything about the arguments passed:
+ *
+ */
+
+/*
+ * Restricted Invariants(受限不变量)
+ * Ideally, a moved-form state that does not support all operations should be detectable. The object should know this state
+ * and provide a member function to check for this state. Moved-from objects might also refuse to execute operations not supported
+ * in this state, However , corresponding checks might const performnce in the general case.
+ *
+ * In the C++ standard library, some types provide APIs to check whether objects are in a moved-from state.
+ * For example, std::future have a memeber function valid() that returns flase for moved-form objects. But the interfaces
+ * to check for moved-from states vary(不同)
+ *
+ * Pretty often the moved-from state is the default constructed state. which means that the moved-from state is parts
+ * of the invariants anyway.In any case, make sure users fo your types know about whati si well-defined and what is not.
  */
 int main()
 {
