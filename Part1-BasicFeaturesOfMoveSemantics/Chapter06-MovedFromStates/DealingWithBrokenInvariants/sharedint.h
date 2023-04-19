@@ -20,6 +20,9 @@
  *
  */
 
+#define MOVE_SEMANTICS
+
+#ifndef MOVE_SEMANTICS
 class SharedInt
 {
 public:
@@ -47,8 +50,8 @@ public:
 
     // Force a runtime error in debug mode
 #ifdef RUNTIME_ERROR
-    std::string asString()const{
-
+    std::string asString() const
+    {
     }
 #endif
     std::string asString() const
@@ -63,6 +66,46 @@ public:
 private:
     std::shared_ptr<int> sp;
 };
+
+#else
+
+class SharedInt
+{
+public:
+    explicit SharedInt( int val )
+        : sp { std::make_shared<int>( val ) } {}
+
+    std::string asString() const
+    {
+        return std::to_string( *sp );
+    }
+
+    // fix moving special memeber functions
+    SharedInt( SharedInt && si )
+        : sp { std::move( si.sp ) }
+    {
+        si.sp = moveFromValue;
+    }
+
+    SharedInt & operator=( SharedInt && si ) noexcept {
+        if ( this != &si ) {
+            sp = std::move( si.sp );
+            si.sp = moveFromValue;
+        }
+        return *this;
+    }
+
+    // enable copying(deleted with user-declared move operations)
+    SharedInt( SharedInt const & ) = default;
+    SharedInt & operator=( SharedInt const & ) = default;
+
+private:
+    std::shared_ptr<int> sp;
+    // special "value for moved-from objects
+    inline static std::shared_ptr<int> moveFromValue { std::make_shared<int>( 0 ) };
+};
+
+#endif
 
 inline void test_sharedint()
 {
