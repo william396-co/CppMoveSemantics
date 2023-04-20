@@ -35,7 +35,7 @@ void perf_timer_out( std::string const & note, F && f, Args &&... args )
     using namespace std::chrono;
     using namespace std::chrono_literals;
     if constexpr ( std::is_same_v<Time, microseconds> ) {
-        println( "executing timer:", std::setw( 10 ), duration<double, std::micro>( t ).count(), " microseconds[ ", note, " ]" );
+        println( "executing timer:", std::setw( 20 ), duration<double, std::micro>( t ).count(), " microseconds[ ", note, " ]" );
     } else if constexpr ( std::is_same_v<Time, nanoseconds> ) {
         println( "executing timer:", std::setw( 10 ), duration<double, std::nano>( t ).count(), " nanoseconds[ ", note, " ]" );
     }
