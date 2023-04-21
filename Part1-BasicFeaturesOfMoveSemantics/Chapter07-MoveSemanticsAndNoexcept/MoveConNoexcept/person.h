@@ -22,13 +22,13 @@ public:
     }
 
 #ifdef DEFAULT_MOVE
-    Person(Person&&)=default; // default move semantics also provide noexcept guarantee
+    Person( Person && ) = default; // default move semantics also provide noexcept guarantee
 #else
 #ifndef CONDITION_NOEXCEPT
-    Person(Person&& p)noexcept(std::is_nothrow_move_constructible<std::string>::value && noexcept(std::cout<<p.name))
-        :name{std::move(p.name)}
+    Person( Person && p ) noexcept( std::is_nothrow_move_constructible<std::string>::value && noexcept( std::cout << p.name ) )
+        : name { std::move( p.name ) }
     {
-        println("MOVE ", name);
+        println( "MOVE ", name );
     }
 #else
     Person( Person && p ) noexcept
@@ -43,7 +43,6 @@ private:
     std::string name;
 };
 
-
 /*
  * Strong Exception Safety Guarantee
  *
@@ -53,7 +52,7 @@ private:
  * kind of a transactional guarantee: either it succeeds or it has no effect.
  *
  * The C++ standard was able to give this guarantee in C++98 and C++03 because there C++ could only
- * copy the elements. If something goes wrong while copying the elements, the source objects are still 
+ * copy the elements. If something goes wrong while copying the elements, the source objects are still
  * available. Internal code that handles the exception simply destroys the copies created so far
  * and release the new  memory to bring the vector back to its previous state (the C++ standard
  * library assumes and requires that destructors do not throw; otherwise, it would not be able to roll back)
@@ -79,17 +78,16 @@ private:
  *
  */
 
-
 inline void test_person_without_noexcept()
 {
     println( __PRETTY_FUNCTION__ );
 
-    std::vector<Person> coll{"Wolfgang Admaeus Mozart",
-        "Johan Sebastian Bach", "Ludwig van Beethoven"};
+    std::vector<Person> coll { "Wolfgang Admaeus Mozart",
+        "Johan Sebastian Bach",
+        "Ludwig van Beethoven" };
 
-    println("cap :",coll.capacity());
-    coll.push_back("Pjotr Iljitsch Tschaikowski");
+    println( "cap :", coll.capacity() );
+    coll.push_back( "Pjotr Iljitsch Tschaikowski" );
 
-    println("cap :", coll.capacity());
-
+    println( "cap :", coll.capacity() );
 }

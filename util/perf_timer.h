@@ -38,6 +38,8 @@ void perf_timer_out( std::string const & note, F && f, Args &&... args )
         println( "executing timer:", std::setw( 20 ), duration<double, std::micro>( t ).count(), " microseconds[ ", note, " ]" );
     } else if constexpr ( std::is_same_v<Time, nanoseconds> ) {
         println( "executing timer:", std::setw( 10 ), duration<double, std::nano>( t ).count(), " nanoseconds[ ", note, " ]" );
+    } else if constexpr ( std::is_same_v<Time, milliseconds> ) {
+        println( "executing timer:", std::setw( 10 ), duration<double, std::milli>( t ).count(), " milliseconds[ ", note, " ]" );
     }
 }
 
