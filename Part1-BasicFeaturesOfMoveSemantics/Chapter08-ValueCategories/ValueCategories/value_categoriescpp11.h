@@ -39,10 +39,10 @@ void inline value_categories(){
     X v;
     const X c;
 
-    f(v);
-    f(c);
-    f(X());
-    f(X{});
-    f(std::move(v));
+    f(v);    // passes a modifiable lvalue
+    f(c);    // passes a non-modifiable lvalue
+    f(X());  // passes a prvalue(old syntax of creating a temporary)
+    f(X{});  // passes a prvalue(new syntax of creating a temporary)
+    f(std::move(v));// passes a xvalue
 
 }
