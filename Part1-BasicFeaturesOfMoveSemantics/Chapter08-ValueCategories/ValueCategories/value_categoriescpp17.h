@@ -49,7 +49,7 @@ inline void takeC(C val){
  * prvalue-to-xvalue conversion.
  */
 class Y{};
-inline void f(const Y& p){
+inline void f(const Y& p){ // accepts an expression of any value category but expects a glvalue
     println(__PRETTY_FUNCTION__);
 }
 
