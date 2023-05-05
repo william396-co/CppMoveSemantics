@@ -6,20 +6,22 @@
  * its semantics to antoher function
  */
 
-
-void rvFunc(std::string&& str){
+void rvFunc( std::string && str )
+{
     // move semantics is not pass through
-//    rvFunc(str); //error: cannot bind rvalue reference to lvalue
+    //    rvFunc(str); //error: cannot bind rvalue reference to lvalue
 
- //   rvFunc(std::move(str));//OK passing an xvalue
-    rvFunc(static_cast<std::string&&>(str));//OK passing an xvalue
+    /*  in the function, we dealing with an object that has a name, means that we use str as an lvalue */
+
+
+    //   rvFunc(std::move(str));//OK passing an xvalue
+    rvFunc( static_cast<std::string &&>( str ) ); //OK passing an xvalue
 }
-
 
 int main()
 {
 
-    rvFunc("hello");
+    rvFunc( "hello" );
 
     return 0;
 }
