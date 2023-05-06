@@ -62,8 +62,52 @@ void f(T&& arg){ // to use perfect forwarding
     f(std::forward<T>(arg));
 }
 
+
+class Y
+{
+public:
+    Y( std::string const & name = "defaultY" )
+        : name { name } {}
+
+    std::string getName()&&{
+        return std::move(name);
+    }
+    const std::string getName()const&{
+        return name;
+    }
+private:
+    std::string name;
+};
+
+Y * create()
+{
+    return new Y();
+}
+
+Y * create( std::string const & name )
+{
+    return new Y { name };
+}
+
+template<typename T, typename... Args>
+T * create( Args &&... args )
+{
+    return new T( std::forward<Args>( args )... );
+}
+
+
 int main()
 {
+   auto y1 = create();
+   auto y2 = create("Y2");
+
+   println(y1->getName());
+   println(y2->getName());
+
+   delete y1;
+   delete y2;
+
+    println("=========================================");
     X x;
     const X c;
     f(x);
